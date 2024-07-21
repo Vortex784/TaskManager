@@ -4,13 +4,13 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class CreateViewModel extends ViewModel {
+public class CreateTaskViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public CreateViewModel() {
+    public CreateTaskViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is create fragment");
+        mText.setValue("This is create task fragment");
     }
 
     public LiveData<String> getText() {

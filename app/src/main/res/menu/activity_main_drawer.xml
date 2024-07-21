@@ -6,11 +6,6 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_create_reward"
-            android:icon="@drawable/tasksicon"
-            android:title="@string/create"
-            android:visible="false" />
-        <item
             android:id="@+id/nav_tasks"
             android:icon="@drawable/tasksicon"
             android:title="@string/tasks" />
@@ -22,5 +17,15 @@
             android:id="@+id/nav_settings"
             android:icon="@drawable/settingsicon"
             android:title="@string/settings" />
+        <item
+            android:id="@+id/nav_create_reward"
+            android:icon="@drawable/tasksicon"
+            android:title="Create reward"
+            android:visible="false" />
+        <item
+            android:id="@+id/nav_create_task"
+            android:icon="@drawable/tasksicon"
+            android:title="Create task"
+            android:visible="false" />
     </group>
 </menu>

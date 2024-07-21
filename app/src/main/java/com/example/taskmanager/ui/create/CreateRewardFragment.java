@@ -4,26 +4,25 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.taskmanager.databinding.FragmentCreateBinding;
-import com.example.taskmanager.databinding.FragmentHomeBinding;
+import com.example.taskmanager.databinding.FragmentCreateRewardBinding;
+import com.example.taskmanager.databinding.FragmentCreateRewardBinding;
 
-public class CreateFragment extends Fragment {
+public class CreateRewardFragment extends Fragment {
 
-    private FragmentCreateBinding binding;
+    private FragmentCreateRewardBinding binding;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        CreateViewModel createViewModel =
-                new ViewModelProvider(this).get(CreateViewModel.class);
+        CreateRewardViewModel createRewardViewModel =
+                new ViewModelProvider(this).get(CreateRewardViewModel.class);
 
-        binding = FragmentCreateBinding.inflate(inflater, container, false);
+        binding = FragmentCreateRewardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         binding.createRewardTitle.setText("Reward title");
@@ -39,5 +38,10 @@ public class CreateFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // Clear any additional resources or data
     }
 }

@@ -25,7 +25,13 @@
 
     <fragment
         android:id="@+id/nav_create_reward"
-        android:name="com.example.taskmanager.ui.create.CreateFragment"
-        android:label="@string/create"
-        tools:layout="@layout/fragment_create" />
+        android:name="com.example.taskmanager.ui.create.CreateRewardFragment"
+        android:label="Create reward"
+        tools:layout="@layout/fragment_create_reward" />
+
+    <fragment
+        android:id="@+id/nav_create_task"
+        android:name="com.example.taskmanager.ui.create.CreateTaskFragment"
+        android:label="Create task"
+        tools:layout="@layout/fragment_create_task" />
 </navigation>
