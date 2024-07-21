@@ -22,4 +22,10 @@
         android:name="com.example.taskmanager.ui.settings.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/nav_create_reward"
+        android:name="com.example.taskmanager.ui.create.CreateFragment"
+        android:label="@string/create"
+        tools:layout="@layout/fragment_create" />
 </navigation>

@@ -10,22 +10,28 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.taskmanager.databinding.FragmentCreateBinding;
 import com.example.taskmanager.databinding.FragmentHomeBinding;
 
 public class CreateFragment extends Fragment {
 
-    private FragmentHomeBinding binding;
+    private FragmentCreateBinding binding;
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         CreateViewModel createViewModel =
                 new ViewModelProvider(this).get(CreateViewModel.class);
 
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding = FragmentCreateBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textHome;
-        createViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        binding.createRewardTitle.setText("Reward title");
+        binding.createRewardDesc.setText("Description");
+        binding.createRewardPrice.setText("Reward price");
+        binding.createRewardRepeatable.setText("Repeatable?");
+
+
         return root;
     }
 

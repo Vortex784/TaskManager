@@ -6,6 +6,11 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_create_reward"
+            android:icon="@drawable/tasksicon"
+            android:title="@string/create"
+            android:visible="false" />
+        <item
             android:id="@+id/nav_tasks"
             android:icon="@drawable/tasksicon"
             android:title="@string/tasks" />
