@@ -54,7 +54,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/createRewardConfirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
@@ -62,14 +62,6 @@
                 android:backgroundTint="#7AE719"
                 android:text="Confirm" />
 
-            <Button
-                android:id="@+id/createRewardCancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:layout_weight="1"
-                android:backgroundTint="#DB1C1C"
-                android:text="Cancel" />
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

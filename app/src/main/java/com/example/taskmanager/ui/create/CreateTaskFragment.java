@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -29,6 +30,15 @@ public class CreateTaskFragment extends Fragment {
         binding.createTaskReward.setText("Task reward");
         binding.createTaskRepeatable.setText("Repeatable?");
 
+        Button buttonConfirm = binding.createTaskConfirm;
+
+        buttonConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle confirm button click
+            }
+        });
+
 
         return root;
     }
@@ -37,5 +47,11 @@ public class CreateTaskFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // Clear any additional resources or data
     }
 }

@@ -1,5 +1,6 @@
 package com.example.taskmanager.ui.rewards;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,25 +10,57 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.taskmanager.database.TaskDatabase;
 import com.example.taskmanager.databinding.FragmentHomeBinding;
+import com.example.taskmanager.databinding.FragmentRewardsBinding;
+
+import java.util.List;
 
 public class RewardsFragment extends Fragment {
 
-    private FragmentHomeBinding binding;
+    private FragmentRewardsBinding binding;
+    private RewardsAdapter rewardsAdapter;
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         RewardsViewModel rewardsViewModel =
                 new ViewModelProvider(this).get(RewardsViewModel.class);
 
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding = FragmentRewardsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textHome;
-        rewardsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        RecyclerView recyclerView = binding.recyclerViewRewards;
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        loadRewards();
+
+
+
+
+
+
         return root;
     }
+
+    private void loadRewards() {
+        new AsyncTask<Void, Void, List<RewardItem>>() {
+            @Override
+            protected List<RewardItem> doInBackground(Void... voids) {
+                TaskDatabase db = TaskDatabase.getInstance(getContext());
+                return db.rewardDao().getAllRewards();
+            }
+            @Override
+            protected void onPostExecute(List<RewardItem> rewards) {
+                rewardsAdapter = new RewardsAdapter(rewards);
+                binding.recyclerViewRewards.setAdapter(rewardsAdapter);
+            }
+        }.execute();
+    }
+
 
     @Override
     public void onDestroyView() {
