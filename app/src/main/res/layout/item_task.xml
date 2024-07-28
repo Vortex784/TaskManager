@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="244dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/task_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/task_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description" />
+
+        <TextView
+            android:id="@+id/task_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Price" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnComplete"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginRight="6dp"
+        android:backgroundTint="#8BC34A"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:padding="6dp"
+        android:text="Button" />
+
+    <Button
+        android:id="@+id/btnDelete"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:backgroundTint="#F44336"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:padding="6dp"
+        android:text="Button" />
+
+</LinearLayout>

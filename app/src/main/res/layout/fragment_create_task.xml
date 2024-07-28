@@ -33,7 +33,7 @@
             android:text="Description" />
 
         <EditText
-            android:id="@+id/createTaskReward"
+            android:id="@+id/createTaskPrice"
             android:layout_width="match_parent"
             android:layout_height="68dp"
             android:layout_margin="20dp"

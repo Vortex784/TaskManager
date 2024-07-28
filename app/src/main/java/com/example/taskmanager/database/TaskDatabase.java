@@ -7,8 +7,9 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.example.taskmanager.ui.rewards.RewardItem;
+import com.example.taskmanager.ui.tasks.TaskItem;
 
-@Database(entities = {RewardItem.class}, version = 1, exportSchema = false)
+@Database(entities = {RewardItem.class, TaskItem.class}, version = 2, exportSchema = false)
 public abstract class TaskDatabase extends RoomDatabase {
 
     private static TaskDatabase instance;
@@ -16,6 +17,7 @@ public abstract class TaskDatabase extends RoomDatabase {
 
 
     public abstract RewardDao rewardDao();
+    public abstract TaskDao taskDao();
 
     public static synchronized TaskDatabase getInstance(Context context) {
         if (instance == null) {
