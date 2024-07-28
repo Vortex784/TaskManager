@@ -1,5 +1,6 @@
 package com.example.taskmanager.ui.rewards;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,19 +8,27 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.taskmanager.R;
+import com.example.taskmanager.database.Points;
+import com.example.taskmanager.database.PointsDao;
 import com.example.taskmanager.database.TaskDatabase;
 import com.example.taskmanager.databinding.ItemRewardBinding;
 import com.example.taskmanager.ui.rewards.RewardItem;
+import com.example.taskmanager.ui.rewards.RewardItem;
+import com.example.taskmanager.database.TaskDatabase;
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.List;
 
 public class RewardsAdapter extends RecyclerView.Adapter<RewardsAdapter.RewardViewHolder> {
 
     private List<RewardItem> rewardsList;
+    private Context context;
 
-    public RewardsAdapter(List<RewardItem> rewardsList) {
+    public RewardsAdapter(Context context, List<RewardItem> rewardsList) {
         this.rewardsList = rewardsList;
+        this.context = context;
     }
+
 
     @NonNull
     @Override
@@ -74,13 +83,35 @@ public class RewardsAdapter extends RecyclerView.Adapter<RewardsAdapter.RewardVi
         }
 
         private void markAsComplete(RewardItem reward) {
-            // Implement the logic to mark the reward as complete
-            // For now, we just remove it from the list and notify the adapter
-            rewardsList.remove(reward);
-            if (!reward.isRepeatable()) {
-                deleteReward(reward);}
-            notifyDataSetChanged();
-            // Optionally, you can update the database to mark it as complete
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    TaskDatabase db = TaskDatabase.getInstance(context.getApplicationContext());
+                    PointsDao pointsDao = db.pointsDao();
+                    Points points = pointsDao.getPoints();
+                    if (points == null) {
+                        points = new Points(0);
+                        pointsDao.insert(points);
+                    }
+                    if (points.getPoints() >= reward.getPrice()) {
+                        points.setPoints(points.getPoints() - reward.getPrice());
+                        pointsDao.update(points);
+                        if (!reward.isRepeatable()) {
+                            deleteReward(reward);
+                        }
+                        Snackbar.make(binding.getRoot().getRootView(), "Reward claimed", Snackbar.LENGTH_LONG).show();
+                        return null;
+                    }
+                    Snackbar.make(binding.getRoot().getRootView(), "Not enough points", Snackbar.LENGTH_LONG).show();
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    notifyDataSetChanged();
+
+                }
+            }.execute();
         }
 
         private void deleteReward(RewardItem reward) {
@@ -89,6 +120,7 @@ public class RewardsAdapter extends RecyclerView.Adapter<RewardsAdapter.RewardVi
                 @Override
                 protected Void doInBackground(RewardItem... rewards) {
                     TaskDatabase.getInstance(itemView.getContext()).rewardDao().deleteReward(rewards[0]);
+                    Snackbar.make(binding.getRoot().getRootView(), "Reward Deleted", Snackbar.LENGTH_LONG).show();
                     return null;
                 }
 

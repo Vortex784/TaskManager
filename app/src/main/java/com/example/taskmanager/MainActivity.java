@@ -53,10 +53,7 @@ public class MainActivity extends AppCompatActivity {
         View headerView = navigationView.getHeaderView(0);
         pointsTextView = headerView.findViewById(R.id.pointsTextView);
 
-        // Initialize points display
         observePoints();
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_tasks, R.id.nav_rewards, R.id.nav_settings, R.id.nav_create_reward, R.id.nav_create_task)
                 .setOpenableLayout(drawer)
@@ -88,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }

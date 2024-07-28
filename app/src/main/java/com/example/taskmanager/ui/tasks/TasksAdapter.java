@@ -14,6 +14,7 @@ import com.example.taskmanager.database.PointsDao;
 import com.example.taskmanager.database.TaskDatabase;
 import com.example.taskmanager.databinding.ItemTaskBinding;
 import com.example.taskmanager.ui.tasks.TaskItem;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -96,7 +97,8 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
                     pointsDao.update(points);
 
                     if (!task.isRepeatable()) {
-                        //db.taskDao().deleteTask(task);
+                        deleteTask(task);
+                        Snackbar.make(binding.getRoot().getRootView(), "Task marked as complete and removed", Snackbar.LENGTH_LONG).show();
                     }
 
                     return null;
@@ -104,17 +106,13 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
 
                 @Override
                 protected void onPostExecute(Void aVoid) {
-                    tasksList.remove(task);
                     notifyDataSetChanged();
-
-                    // Update UI if needed, such as updating points display
-                    // This could be done via a callback to the activity or fragment
+                    Snackbar.make(binding.getRoot().getRootView(), "Task marked as complete", Snackbar.LENGTH_LONG).show();
                 }
             }.execute();
         }
 
         private void deleteTask(TaskItem task) {
-            // Remove the task from the database
             new AsyncTask<TaskItem, Void, Void>() {
                 @Override
                 protected Void doInBackground(TaskItem... tasks) {
@@ -124,9 +122,10 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
 
                 @Override
                 protected void onPostExecute(Void aVoid) {
-                    // Remove the task from the list and notify the adapter
                     tasksList.remove(task);
+                    Snackbar.make(binding.getRoot().getRootView(), "Task Deleted", Snackbar.LENGTH_LONG).show();
                     notifyDataSetChanged();
+
                 }
             }.execute(task);
         }

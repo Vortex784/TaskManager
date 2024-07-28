@@ -55,7 +55,7 @@ public class RewardsFragment extends Fragment {
             }
             @Override
             protected void onPostExecute(List<RewardItem> rewards) {
-                rewardsAdapter = new RewardsAdapter(rewards);
+                rewardsAdapter = new RewardsAdapter(getContext(),rewards);
                 binding.recyclerViewRewards.setAdapter(rewardsAdapter);
             }
         }.execute();
