@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taskmanager.database.TaskDatabase;
-import com.example.taskmanager.databinding.FragmentHomeBinding;
 import com.example.taskmanager.databinding.FragmentRewardsBinding;
 
 import java.util.List;
