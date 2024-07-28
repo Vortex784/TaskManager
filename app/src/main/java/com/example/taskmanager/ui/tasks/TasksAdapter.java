@@ -1,5 +1,6 @@
 package com.example.taskmanager.ui.tasks;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.taskmanager.database.Points;
+import com.example.taskmanager.database.PointsDao;
 import com.example.taskmanager.database.TaskDatabase;
 import com.example.taskmanager.databinding.ItemTaskBinding;
 import com.example.taskmanager.ui.tasks.TaskItem;
@@ -17,9 +20,11 @@ import java.util.List;
 public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHolder> {
 
     private List<TaskItem> tasksList;
+    private Context context;
 
-    public TasksAdapter(List<TaskItem> tasksList) {
+    public TasksAdapter(Context context, List<TaskItem> tasksList) {
         this.tasksList = tasksList;
+        this.context = context;
     }
 
     @NonNull
@@ -74,14 +79,38 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
             binding.taskPrice.setText(String.valueOf(task.getPrice()));
         }
 
+
+
         private void markAsComplete(TaskItem task) {
-            // Implement the logic to mark the task as complete
-            // For now, we just remove it from the list and notify the adapter
-            tasksList.remove(task);
-            if (!task.isRepeatable()) {
-                deleteTask(task);}
-            notifyDataSetChanged();
-            // Optionally, you can update the database to mark it as complete
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... voids) {
+                    TaskDatabase db = TaskDatabase.getInstance(context.getApplicationContext());
+                    PointsDao pointsDao = db.pointsDao();
+                    Points points = pointsDao.getPoints();
+                    if (points == null) {
+                        points = new Points(0);
+                       pointsDao.insert(points);
+                  }
+                    points.setPoints(points.getPoints() + task.getPrice());
+                    pointsDao.update(points);
+
+                    if (!task.isRepeatable()) {
+                        //db.taskDao().deleteTask(task);
+                    }
+
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    tasksList.remove(task);
+                    notifyDataSetChanged();
+
+                    // Update UI if needed, such as updating points display
+                    // This could be done via a callback to the activity or fragment
+                }
+            }.execute();
         }
 
         private void deleteTask(TaskItem task) {

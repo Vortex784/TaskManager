@@ -1,11 +1,16 @@
 package com.example.taskmanager;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.content.DialogInterface;
+import android.widget.TextView;
 
+import com.example.taskmanager.database.Points;
+import com.example.taskmanager.database.PointsDao;
+import com.example.taskmanager.database.TaskDatabase;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -18,6 +23,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 
 import com.example.taskmanager.databinding.ActivityMainBinding;
 
@@ -25,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
+    private TextView pointsTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +49,12 @@ public class MainActivity extends AppCompatActivity {
         });
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
+
+        View headerView = navigationView.getHeaderView(0);
+        pointsTextView = headerView.findViewById(R.id.pointsTextView);
+
+        // Initialize points display
+        observePoints();
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -52,6 +65,23 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+
+
+    }
+
+
+    private void observePoints() {
+        PointsDao pointsDao = TaskDatabase.getInstance(getApplicationContext()).pointsDao();
+        pointsDao.getPointsLiveData().observe(this, new Observer<Points>() {
+            @Override
+            public void onChanged(Points points) {
+                if (points != null) {
+                    pointsTextView.setText("Points: " + points.getPoints());
+                } else {
+                    pointsTextView.setText("Points: 0");
+                }
+            }
+        });
     }
 
 

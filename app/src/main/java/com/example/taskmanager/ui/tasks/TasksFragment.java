@@ -55,7 +55,7 @@ public class TasksFragment extends Fragment {
             }
             @Override
             protected void onPostExecute(List<TaskItem> tasks) {
-                tasksAdapter = new TasksAdapter(tasks);
+                tasksAdapter = new TasksAdapter(getContext(), tasks);
                 binding.recyclerViewTasks.setAdapter(tasksAdapter);
             }
         }.execute();
