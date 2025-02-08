@@ -14,4 +14,15 @@
     <string name="rewards">Rewards</string>
     <string name="settings">Settings</string>
     <string name="create">Create</string>
+    <string-array name="language_options">
+        <item>English</item>
+        <item>Polski</item>
+        <item>Українська</item>
+    </string-array>
+
+    <string-array name="language_values">
+        <item>en</item>
+        <item>pl</item>
+        <item>uk</item>
+    </string-array>
 </resources>
