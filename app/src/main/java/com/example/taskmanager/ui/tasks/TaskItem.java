@@ -11,12 +11,15 @@ public class TaskItem {
     private String description;
     private double price;
     private boolean isRepeatable;
+    private String category;
 
-    public TaskItem(String title, String description, double price, boolean isRepeatable) {
+
+    public TaskItem(String title, String description, double price, boolean isRepeatable, String category) {
         this.title = title;
         this.description = description;
         this.price = price;
         this.isRepeatable = isRepeatable;
+        this.category = category;
     }
 
     // Getters and Setters
@@ -59,4 +62,8 @@ public class TaskItem {
     public void setRepeatable(boolean repeatable) {
         isRepeatable = repeatable;
     }
+
+    public String getCategory() { return category; }
+
+    public void setCategory(String category) { this.category = category; }
 }

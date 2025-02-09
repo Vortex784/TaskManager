@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
@@ -16,19 +18,17 @@ import androidx.navigation.Navigation;
 import com.example.taskmanager.R;
 import com.example.taskmanager.database.TaskDatabase;
 import com.example.taskmanager.databinding.FragmentCreateTaskBinding;
-import com.example.taskmanager.databinding.FragmentCreateTaskBinding;
 import com.example.taskmanager.ui.tasks.TaskItem;
+import com.example.taskmanager.ui.tasks.TasksFragment;
 
 public class CreateTaskFragment extends Fragment {
 
     private FragmentCreateTaskBinding binding;
+    private String selectedCategory = "Work"; // Default category
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        CreateTaskViewModel createTaskViewModel =
-                new ViewModelProvider(this).get(CreateTaskViewModel.class);
-
         binding = FragmentCreateTaskBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -37,15 +37,24 @@ public class CreateTaskFragment extends Fragment {
         binding.createTaskPrice.setText("Task price");
         binding.createTaskRepeatable.setText("Repeatable?");
 
-        Button buttonConfirm = binding.createTaskConfirm;
+        // Initialize category Spinner using binding
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireContext(),
+                R.array.task_categories, android.R.layout.simple_spinner_dropdown_item);
+        binding.spinnerCategory.setAdapter(adapter);
 
-        buttonConfirm.setOnClickListener(new View.OnClickListener() {
+        // Handle category selection
+        binding.spinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                saveTask();
-
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedCategory = parent.getItemAtPosition(position).toString();
             }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
+
+        Button buttonConfirm = binding.createTaskConfirm;
+        buttonConfirm.setOnClickListener(v -> saveTask());
 
         return root;
     }
@@ -55,8 +64,10 @@ public class CreateTaskFragment extends Fragment {
         String description = binding.createTaskDesc.getText().toString();
         String price = binding.createTaskPrice.getText().toString();
         boolean isRepeatable = binding.createTaskRepeatable.isChecked();
+        String category = selectedCategory;
 
-        TaskItem task = new TaskItem(title, description, Double.parseDouble(price), isRepeatable);
+        // Create the new task item
+        TaskItem task = new TaskItem(title, description, Double.parseDouble(price), isRepeatable, category);
 
         // Save to database in background
         new AsyncTask<TaskItem, Void, Void>() {
@@ -68,27 +79,21 @@ public class CreateTaskFragment extends Fragment {
 
             @Override
             protected void onPostExecute(Void aVoid) {
-                // Go back to the previous screen
+                // Navigate back to the previous screen
                 NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_content_main);
                 navController.popBackStack();
+
+                // Refresh tasks in TasksFragment
+                TasksFragment tasksFragment = (TasksFragment) getActivity().getSupportFragmentManager()
+                        .findFragmentByTag(TasksFragment.class.getSimpleName());
+
             }
         }.execute(task);
     }
-
-    private void navigateBack(View view) {
-        NavController navController = Navigation.findNavController(view);
-        navController.navigateUp();
-    }
-
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-    }
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        // Clear any additional resources or data
     }
 }

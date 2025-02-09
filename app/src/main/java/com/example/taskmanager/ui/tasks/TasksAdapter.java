@@ -28,6 +28,14 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
         this.context = context;
     }
 
+    public void updateTasks(List<TaskItem> newTasks) {
+        if (newTasks == null) return; // Avoid crashes on null lists
+
+        this.tasksList.clear();
+        this.tasksList.addAll(newTasks);
+        notifyDataSetChanged(); // Efficient UI update without re-creating adapter
+    }
+
     @NonNull
     @Override
     public TaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -62,7 +70,10 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
                     TaskItem task = tasksList.get(position);
                     markAsComplete(task);
                 }
+
             });
+
+
 
             binding.btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
