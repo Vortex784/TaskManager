@@ -3,72 +3,89 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".ui.create.CreateTaskFragment">
 
-    <LinearLayout
-        android:layout_width="409dp"
-        android:layout_height="889dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <!-- Task Title -->
+    <EditText
+        android:id="@+id/createTaskTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:inputType="textMultiLine"
+        android:hint="Task Title"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-        <EditText
-            android:id="@+id/createTaskTitle"
-            android:layout_width="match_parent"
-            android:layout_height="61dp"
-            android:layout_margin="20dp"
-            android:ems="10"
-            android:inputType="text"
-            android:text="Task title" />
+    <!-- Task Description -->
+    <EditText
+        android:id="@+id/createTaskDesc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:inputType="textMultiLine"
+        android:hint="Task Desciption"
+        app:layout_constraintTop_toBottomOf="@id/createTaskTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-        <EditText
-            android:id="@+id/createTaskDesc"
-            android:layout_width="match_parent"
-            android:layout_height="111dp"
-            android:layout_margin="20dp"
-            android:ems="10"
-            android:gravity="start|top"
-            android:inputType="textMultiLine"
-            android:text="Description" />
+    <!-- Task Reward -->
+    <EditText
+        android:id="@+id/createTaskPrice"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:inputType="numberDecimal"
+        android:hint="Task Reward"
+        app:layout_constraintTop_toBottomOf="@id/createTaskDesc"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-        <EditText
-            android:id="@+id/createTaskPrice"
-            android:layout_width="match_parent"
-            android:layout_height="68dp"
-            android:layout_margin="20dp"
-            android:ems="10"
-            android:inputType="numberDecimal"
-            android:text="Task reward" />
+    <!-- Repeatable Switch -->
+    <Switch
+        android:id="@+id/createTaskRepeatable"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
 
-        <Switch
-            android:id="@+id/createTaskRepeatable"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_margin="20dp"
-            android:text="Repeatable?" />
+        app:layout_constraintTop_toBottomOf="@id/createTaskPrice"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-        <Spinner
-            android:id="@+id/spinner_category"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/task_categories"/>
+    <!-- Category Spinner -->
+    <Spinner
+        android:id="@+id/spinner_category"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:entries="@array/task_categories"
+        app:layout_constraintTop_toBottomOf="@id/createTaskRepeatable"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+    <!-- Confirm Button -->
+    <Button
+        android:id="@+id/createTaskConfirm"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="#7AE719"
+        android:text="Confirm"
+        app:layout_constraintTop_toBottomOf="@id/spinner_category"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-            <Button
-                android:id="@+id/createTaskConfirm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:layout_weight="1"
-                android:backgroundTint="#7AE719"
-                android:text="Confirm" />
-
-        </LinearLayout>
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
-

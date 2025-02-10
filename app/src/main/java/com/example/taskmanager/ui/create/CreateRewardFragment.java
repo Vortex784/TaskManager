@@ -18,6 +18,7 @@ import com.example.taskmanager.database.TaskDatabase;
 import com.example.taskmanager.databinding.FragmentCreateRewardBinding;
 import com.example.taskmanager.databinding.FragmentCreateRewardBinding;
 import com.example.taskmanager.ui.rewards.RewardItem;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class CreateRewardFragment extends Fragment {
 
@@ -31,10 +32,10 @@ public class CreateRewardFragment extends Fragment {
 
         binding = FragmentCreateRewardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        FloatingActionButton fab = getActivity().findViewById(R.id.fab);
+        fab.setVisibility(View.GONE);
 
-        binding.createRewardTitle.setText("Reward title");
-        binding.createRewardDesc.setText("Description");
-        binding.createRewardPrice.setText("Reward price");
+
         binding.createRewardRepeatable.setText("Repeatable?");
 
         Button buttonConfirm = binding.createRewardConfirm;
@@ -85,6 +86,8 @@ public class CreateRewardFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+        FloatingActionButton fab = getActivity().findViewById(R.id.fab);
+        fab.setVisibility(View.VISIBLE);
     }
     @Override
     public void onDestroy() {

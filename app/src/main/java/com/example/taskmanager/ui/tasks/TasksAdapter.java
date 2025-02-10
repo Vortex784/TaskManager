@@ -28,13 +28,6 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
         this.context = context;
     }
 
-    public void updateTasks(List<TaskItem> newTasks) {
-        if (newTasks == null) return; // Avoid crashes on null lists
-
-        this.tasksList.clear();
-        this.tasksList.addAll(newTasks);
-        notifyDataSetChanged(); // Efficient UI update without re-creating adapter
-    }
 
     @NonNull
     @Override

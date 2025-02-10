@@ -20,6 +20,11 @@ import com.example.taskmanager.database.TaskDatabase;
 import com.example.taskmanager.databinding.FragmentCreateTaskBinding;
 import com.example.taskmanager.ui.tasks.TaskItem;
 import com.example.taskmanager.ui.tasks.TasksFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class CreateTaskFragment extends Fragment {
 
@@ -32,14 +37,23 @@ public class CreateTaskFragment extends Fragment {
         binding = FragmentCreateTaskBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        binding.createTaskTitle.setText("Task title");
-        binding.createTaskDesc.setText("Description");
-        binding.createTaskPrice.setText("Task price");
+        FloatingActionButton fab = getActivity().findViewById(R.id.fab);
+        fab.setVisibility(View.GONE);
+
         binding.createTaskRepeatable.setText("Repeatable?");
 
-        // Initialize category Spinner using binding
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireContext(),
-                R.array.task_categories, android.R.layout.simple_spinner_dropdown_item);
+        // Get categories from resources
+        String[] categories = getResources().getStringArray(R.array.task_categories);
+
+        // Convert the array to a list
+        List<String> categoryList = new ArrayList<>(Arrays.asList(categories));
+
+        // Remove "All" category if it exists
+        categoryList.remove("All");
+
+        // Create an adapter with the modified category list
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(),
+                android.R.layout.simple_spinner_dropdown_item, categoryList);
         binding.spinnerCategory.setAdapter(adapter);
 
         // Handle category selection
@@ -62,12 +76,39 @@ public class CreateTaskFragment extends Fragment {
     private void saveTask() {
         String title = binding.createTaskTitle.getText().toString();
         String description = binding.createTaskDesc.getText().toString();
-        String price = binding.createTaskPrice.getText().toString();
+        String priceStr = binding.createTaskPrice.getText().toString();
         boolean isRepeatable = binding.createTaskRepeatable.isChecked();
         String category = selectedCategory;
 
+        // Validate input
+        if (title.isEmpty()) {
+            binding.createTaskTitle.setError("Title cannot be empty");
+            return;
+        }
+
+        if (description.isEmpty()) {
+            binding.createTaskDesc.setError("Description cannot be empty");
+            return;
+        }
+
+        if (priceStr.isEmpty()) {
+            binding.createTaskPrice.setError("Price cannot be empty");
+            return;
+        }
+
+        double price;
+        try {
+            price = Double.parseDouble(priceStr);
+            if (price < 0) {
+                binding.createTaskPrice.setError("Price must be a positive number");
+                return;
+            }
+        } catch (NumberFormatException e) {
+            binding.createTaskPrice.setError("Invalid price");
+            return;
+        }
         // Create the new task item
-        TaskItem task = new TaskItem(title, description, Double.parseDouble(price), isRepeatable, category);
+        TaskItem task = new TaskItem(title, description, Double.parseDouble(priceStr), isRepeatable, category);
 
         // Save to database in background
         new AsyncTask<TaskItem, Void, Void>() {
@@ -95,5 +136,7 @@ public class CreateTaskFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+        FloatingActionButton fab = getActivity().findViewById(R.id.fab);
+        fab.setVisibility(View.VISIBLE);
     }
 }
