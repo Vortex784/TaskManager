@@ -3,8 +3,10 @@ package com.example.taskmanager.ui.tasks;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "tasks")
-public class TaskItem {
+public class TaskItem implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String title;
@@ -14,7 +16,7 @@ public class TaskItem {
     private String category;
 
 
-    public TaskItem(String title, String description, double price, boolean isRepeatable, String category) {
+    public TaskItem (String title, String description, double price, boolean isRepeatable, String category) {
         this.title = title;
         this.description = description;
         this.price = price;

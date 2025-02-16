@@ -4,44 +4,71 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.settings.SettingsFragment">
+    tools:context=".ui.settings.SettingsFragment"
+    android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_marginTop="16dp">
 
+        <!-- Settings Title -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Settings"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="16dp"/>
 
         <!-- Dark Mode Switch -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dark Mode"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
         <Switch
             android:id="@+id/switch_dark_mode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Dark Mode" />
+            android:text="Enable Dark Mode"
+            android:layout_marginBottom="16dp"/>
 
         <!-- Notifications Switch -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Notifications"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
         <Switch
             android:id="@+id/switch_notifications"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Enable Notifications" />
+            android:text="Enable Notifications"
+            android:layout_marginBottom="16dp"/>
 
         <!-- Language Selector -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Select Language" />
+            android:text="Select Language"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
 
         <Spinner
             android:id="@+id/spinner_language"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

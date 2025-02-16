@@ -2,18 +2,21 @@ package com.example.taskmanager.ui.tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.taskmanager.R;
 import com.example.taskmanager.database.Points;
 import com.example.taskmanager.database.PointsDao;
 import com.example.taskmanager.database.TaskDatabase;
 import com.example.taskmanager.databinding.ItemTaskBinding;
-import com.example.taskmanager.ui.tasks.TaskItem;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
@@ -26,6 +29,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
     public TasksAdapter(Context context, List<TaskItem> tasksList) {
         this.tasksList = tasksList;
         this.context = context;
+
     }
 
 
@@ -42,6 +46,8 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
         TaskItem task = tasksList.get(position);
         holder.bind(task);
     }
+
+
 
     @Override
     public int getItemCount() {
@@ -76,6 +82,14 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
                     deleteTask(task);
                 }
             });
+
+            binding.btnEdit.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    TaskItem task = tasksList.get(position);
+                    editTask(task);
+                }
+            });
         }
 
         public void bind(TaskItem task) {
@@ -83,6 +97,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
             binding.taskDescription.setText(task.getDescription());
             binding.taskPrice.setText(String.valueOf(task.getPrice()));
         }
+
 
 
 
@@ -115,6 +130,16 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskViewHold
                 }
             }.execute();
         }
+
+        private void editTask(TaskItem task) {
+            Bundle bundle = new Bundle();
+            bundle.putInt("task_id", task.getId());  // Pass task ID as argument
+
+            // Get the NavController from the current context (activity/fragment)
+            NavController navController = Navigation.findNavController((View) binding.getRoot().getParent());
+            navController.navigate(R.id.nav_edit_task, bundle);  // Navigate to TaskEditFragment with task_id as argument
+        }
+
 
         private void deleteTask(TaskItem task) {
             new AsyncTask<TaskItem, Void, Void>() {
