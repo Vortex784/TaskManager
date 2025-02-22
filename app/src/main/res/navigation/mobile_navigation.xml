@@ -45,4 +45,10 @@
         android:name="com.example.taskmanager.ui.edit.EditTaskFragment"
         android:label="Edit Task"
         tools:layout="@layout/fragment_edit_task" />
+
+    <fragment
+        android:id="@+id/nav_edit_reward"
+        android:name="com.example.taskmanager.ui.edit.EditRewardFragment"
+        android:label="Edit Reward"
+        tools:layout="@layout/fragment_edit_reward" />
 </navigation>
