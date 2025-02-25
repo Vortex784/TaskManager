@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_tasks"
-        android:name="com.example.taskmanager.ui.tasks.TasksFragment"
+        android:name="com.maxte.taskmanager.ui.tasks.TasksFragment"
         android:label="@string/tasks"
         tools:layout="@layout/fragment_tasks">
         <!-- Action to Task Edit -->
@@ -18,37 +18,37 @@
 
     <fragment
         android:id="@+id/nav_rewards"
-        android:name="com.example.taskmanager.ui.rewards.RewardsFragment"
+        android:name="com.maxte.taskmanager.ui.rewards.RewardsFragment"
         android:label="@string/rewards"
         tools:layout="@layout/fragment_rewards" />
 
     <fragment
         android:id="@+id/nav_settings"
-        android:name="com.example.taskmanager.ui.settings.SettingsFragment"
+        android:name="com.maxte.taskmanager.ui.settings.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings" />
 
     <fragment
         android:id="@+id/nav_create_reward"
-        android:name="com.example.taskmanager.ui.create.CreateRewardFragment"
+        android:name="com.maxte.taskmanager.ui.create.CreateRewardFragment"
         android:label="Create reward"
         tools:layout="@layout/fragment_create_reward" />
 
     <fragment
         android:id="@+id/nav_create_task"
-        android:name="com.example.taskmanager.ui.create.CreateTaskFragment"
+        android:name="com.maxte.taskmanager.ui.create.CreateTaskFragment"
         android:label="Create task"
         tools:layout="@layout/fragment_create_task" />
 
     <fragment
         android:id="@+id/nav_edit_task"
-        android:name="com.example.taskmanager.ui.edit.EditTaskFragment"
+        android:name="com.maxte.taskmanager.ui.edit.EditTaskFragment"
         android:label="Edit Task"
         tools:layout="@layout/fragment_edit_task" />
 
     <fragment
         android:id="@+id/nav_edit_reward"
-        android:name="com.example.taskmanager.ui.edit.EditRewardFragment"
+        android:name="com.maxte.taskmanager.ui.edit.EditRewardFragment"
         android:label="Edit Reward"
         tools:layout="@layout/fragment_edit_reward" />
 </navigation>

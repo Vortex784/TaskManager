@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "356982323464",
+    "project_id": "taskmanager-3defa",
+    "storage_bucket": "taskmanager-3defa.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:356982323464:android:1f01a46979df1c1c30d4bd",
+        "android_client_info": {
+          "package_name": "com.maxte.taskmanager"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByjW_9GpWI8QMnbrWafwOixmxE_dxbnFY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
