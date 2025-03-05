@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView userImageView;
     private GoogleSignInClient mGoogleSignInClient;
     private SignInButton btnGoogleSignIn;
+    private Button btnSignOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMain.toolbar);
+        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showCreateOptionsDialog();
+            }
+        });
 
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
@@ -80,11 +88,14 @@ public class MainActivity extends AppCompatActivity {
 
         // Access views in nav_header_main.xml
         View headerView = navigationView.getHeaderView(0);
+        pointsTextView = headerView.findViewById(R.id.pointsTextView);
         userNameTextView = headerView.findViewById(R.id.userNameTextView);
         userEmailTextView = headerView.findViewById(R.id.emailTextView);
         userImageView = headerView.findViewById(R.id.imageView);
         btnGoogleSignIn = headerView.findViewById(R.id.btnGoogleSignIn);
+        btnSignOut = headerView.findViewById(R.id.btnSignOut);
 
+        observePoints();
         // Get user data from intent
         String userName = getIntent().getStringExtra("user_name");
         String userEmail = getIntent().getStringExtra("user_email");
@@ -101,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Set click listener for Google Sign-In button
         btnGoogleSignIn.setOnClickListener(view -> handleSignInButtonClick());
+        btnSignOut.setOnClickListener(v -> signOut());
         SignInButton btnGoogleSignIn = headerView.findViewById(R.id.btnGoogleSignIn);
         btnGoogleSignIn.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
@@ -109,6 +121,30 @@ public class MainActivity extends AppCompatActivity {
 
         // Load existing user info if already signed in
         loadUserInfo();
+    }
+
+    private void signOut() {
+        mGoogleSignInClient.signOut().addOnCompleteListener(this, task -> {
+            if (task.isSuccessful()) {
+                // Clear user data
+                userNameTextView.setText("Guest");
+                userEmailTextView.setText("Not signed in");
+                userImageView.setImageResource(R.drawable.ic_launcher_round);
+
+                // Show sign-in button, hide sign-out button
+                btnGoogleSignIn.setVisibility(View.VISIBLE);
+                btnSignOut.setVisibility(View.GONE);
+
+                Toast.makeText(MainActivity.this, "Signed out successfully", Toast.LENGTH_SHORT).show();
+
+                // Redirect to login screen (optional)
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+            } else {
+                Toast.makeText(MainActivity.this, "Sign out failed. Try again.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     /**
@@ -142,11 +178,19 @@ public class MainActivity extends AppCompatActivity {
                 userImageView.setImageResource(R.drawable.ic_launcher_round);
             }
 
+            // Show sign-out button, hide sign-in button
+            btnGoogleSignIn.setVisibility(View.GONE);
+            btnSignOut.setVisibility(View.VISIBLE);
+
             Toast.makeText(this, "Logged in as " + account.getDisplayName(), Toast.LENGTH_SHORT).show();
         } else {
             userNameTextView.setText("Guest");
             userEmailTextView.setText("Not signed in");
             userImageView.setImageResource(R.drawable.ic_launcher_round);
+
+            // Show sign-in button, hide sign-out button
+            btnGoogleSignIn.setVisibility(View.VISIBLE);
+            btnSignOut.setVisibility(View.GONE);
         }
     }
 
@@ -179,6 +223,20 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    private void observePoints() {
+        PointsDao pointsDao = TaskDatabase.getInstance(getApplicationContext()).pointsDao();
+        pointsDao.getPointsLiveData().observe(this, new Observer<Points>() {
+            @Override
+            public void onChanged(Points points) {
+                if (points != null) {
+                    pointsTextView.setText("Points: " + points.getPoints());
+                } else {
+                    pointsTextView.setText("Points: 0");
+                }
+            }
+        });
     }
 
     @Override
