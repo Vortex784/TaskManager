@@ -65,18 +65,11 @@ public class TasksFragment extends Fragment {
             @Override
             protected List<TaskItem> doInBackground(Void... voids) {
                 TaskDatabase db = TaskDatabase.getInstance(getContext());
-
-                // Load tasks based on the selected category
-                if ("All".equals(selectedCategory)) {
-                    return db.taskDao().getAllTasks();  // Load all tasks
-                } else {
-                    return db.taskDao().getTasksByCategory(selectedCategory);  // Load tasks for the selected category
-                }
+                return db.taskDao().getAllTasksSync(); // ✅ Use synchronous version
             }
 
             @Override
             protected void onPostExecute(List<TaskItem> tasks) {
-                // Update the RecyclerView with the filtered tasks
                 tasksAdapter = new TasksAdapter(getContext(), tasks);
                 binding.recyclerViewTasks.setAdapter(tasksAdapter);
             }

@@ -9,14 +9,14 @@ import java.io.Serializable;
 public class TaskItem implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int id;
+    private String firestoreId; // Firestore document ID
     private String title;
     private String description;
     private double price;
     private boolean isRepeatable;
     private String category;
 
-
-    public TaskItem (String title, String description, double price, boolean isRepeatable, String category) {
+    public TaskItem(String title, String description, double price, boolean isRepeatable, String category) {
         this.title = title;
         this.description = description;
         this.price = price;
@@ -25,47 +25,24 @@ public class TaskItem implements Serializable {
     }
 
     // Getters and Setters
-    public int getId() {
-        return id;
-    }
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public String getFirestoreId() { return firestoreId; }
+    public void setFirestoreId(String firestoreId) { this.firestoreId = firestoreId; }
 
-    public String getTitle() {
-        return title;
-    }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
-    public String getDescription() {
-        return description;
-    }
+    public double getPrice() { return price; }
+    public void setPrice(double price) { this.price = price; }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public boolean isRepeatable() {
-        return isRepeatable;
-    }
-
-    public void setRepeatable(boolean repeatable) {
-        isRepeatable = repeatable;
-    }
+    public boolean isRepeatable() { return isRepeatable; }
+    public void setRepeatable(boolean repeatable) { isRepeatable = repeatable; }
 
     public String getCategory() { return category; }
-
     public void setCategory(String category) { this.category = category; }
 }
